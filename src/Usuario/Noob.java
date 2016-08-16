@@ -2,7 +2,7 @@ package Usuario;
 
 import jogo.Jogo;
 
-
+//noob e veterano tem que possuir uma lista de usuarios ???
 public class Noob extends Usuario {
 
 	private int desconto = 10; //10 % de desconto
