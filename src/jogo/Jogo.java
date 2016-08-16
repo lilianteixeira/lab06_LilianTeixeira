@@ -64,7 +64,9 @@ public class Jogo {
 	//rever
 	public void registraJogada(int score, boolean zerou ){
 		
-			
+		if (score > maiorScore){
+			maiorScore = score;
+		}
 		
 	}
 	
