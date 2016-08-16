@@ -11,6 +11,7 @@ public class Usuario {
 	private String nomeLogin;
 	private ArrayList<Jogo> listaDeJogosComprados;
 	private double dinheiro;
+	private Jogo jogo;
 	
 	//construtor
 	public Usuario(String nome, String nomeLogin, double dinheiro) {
@@ -20,6 +21,25 @@ public class Usuario {
 		this.dinheiro = dinheiro;
 		
 		listaDeJogosComprados = new ArrayList<Jogo>();
+		
+	}
+	
+	//adiciona x2p
+	
+	public double compraJogo(){
+		
+		double x2p = 10 * jogo.getPreco();
+		return x2p;
+		
+	}
+	
+	//registraJogada
+	
+	public void registraJogada(String nomeJogo, int score, boolean zerou){
+		
+		//dar x2p ao usuario
+		jogo.registraJogada(score, zerou);
+		
 		
 	}
 

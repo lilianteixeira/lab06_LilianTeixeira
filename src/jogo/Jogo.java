@@ -61,9 +61,10 @@ public class Jogo {
 		this.quantidadeVezesZerou = quantidadeVezesZerou;
 	}
 
+	//rever
 	public void registraJogada(int score, boolean zerou ){
 		
-		
+			
 		
 	}
 	

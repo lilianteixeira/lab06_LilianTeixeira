@@ -1,10 +1,13 @@
 package Usuario;
 
+import jogo.Jogo;
+
 
 public class Noob extends Usuario {
 
 	private int desconto = 10; //10 % de desconto
 	private int x2p = 0;
+	private Usuario usuario;
 
 	
 	public Noob(String nome, String nomeLogin, double dinheiro) {
@@ -12,4 +15,11 @@ public class Noob extends Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void compraJogo(double preco){
+
+		//double
+		usuario.compraJogo();
+		
+	}
+	
 }
