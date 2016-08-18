@@ -28,11 +28,11 @@ import exception.StringInvalidaException;
 	
 	public Usuario(String nome, String login, double dinheiro) throws EntradaException{
 		
-		if (nome == null || nome == ""){
+		if (nome == null || nome.equalsIgnoreCase("")){
 			throw new StringInvalidaException("nome");
 		}
 		
-		if (login == null || login == ""){
+		if (login == null || login.equalsIgnoreCase("")){
 			throw new StringInvalidaException("login");
 		}
 		
@@ -49,9 +49,16 @@ import exception.StringInvalidaException;
 		
 	}
 	
+	//obj jogo or double preco
 	abstract double calculaDesconto(double precoJogo);
 	
 	abstract double x2p(Jogo jogo);
+	
+	public void adicionaJogo(Jogo jogo){
+		
+		jogosComprados.add(jogo);
+		
+	}
 	
 	public Jogo buscaJogo(String nomeDoJogo){
 		
@@ -98,26 +105,11 @@ import exception.StringInvalidaException;
 	/**
 	 * vende jogo ao usuario 
 	 * @param jogo
+	 * @return 
 	 * @throws SaldoInsuficienteException
 	 */
-	public void compraJogo(Jogo jogo)throws SaldoInsuficienteException{
-		if (this.dinheiro > jogo.getPreco()){
-			
-			double desconto = calculaDesconto(jogo.getPreco());
-			double precoFinal = jogo.getPreco() - desconto;
-			
-			this.dinheiro = this.dinheiro - precoFinal;
-			setDinheiro(dinheiro);
-			
-			jogosComprados.add(jogo);
-			
-			x2p(jogo);
-		} else{
-			throw new SaldoInsuficienteException();
-		}
-	}
-	
-	
+	public abstract void compraJogo(Jogo jogo) throws SaldoInsuficienteException;
+		
 	
 	@Override
 	public String toString() {

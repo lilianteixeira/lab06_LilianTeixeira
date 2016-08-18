@@ -1,5 +1,7 @@
 package jogo;
 
+import java.util.HashSet;
+
 import exception.EntradaException;
 import exception.NumeroInvalidoException;
 import exception.StringInvalidaException;
@@ -18,7 +20,7 @@ public class Jogo {
 	private int maiorScore ;
 	private int numeroAcessos ;
 	private int zerouJogo ;
-	private String tipoJogo;
+	private HashSet<Jogabilidade> jogabilidade;
 	
 	/**
 	 * Abaixo os atributos do metodo jogo
@@ -31,7 +33,7 @@ public class Jogo {
 	 * @throws EntradaException
 	 * Esse método lanca uma excecao caso o nome ou preco seja invalido 
 	 */
-	public Jogo(String nome, double preco, int maiorScore, int numeroAcessos, int zerouJogo, String tipoJogo) throws EntradaException {
+	public Jogo(String nome, double preco, int maiorScore, int numeroAcessos, int zerouJogo, String tipoJogo, HashSet<Jogabilidade> jogabilidade) throws EntradaException {
 		
 		if (nome == null || nome == ""){
 			throw new StringInvalidaException("Nome do jogo não pode ser nulo ou vazio");
@@ -46,9 +48,10 @@ public class Jogo {
 		this.maiorScore = 0;
 		this.numeroAcessos = 0;
 		this.zerouJogo = 0;
-		this.tipoJogo = tipoJogo;
+		this.jogabilidade = jogabilidade;
 		
 	}
+	
 	
 	/**
 	 * 
@@ -166,13 +169,17 @@ public class Jogo {
 		this.zerouJogo = zerouJogo;
 	}
 
-	public String getTipoJogo() {
-		return tipoJogo;
+
+	public HashSet<Jogabilidade> getJogabilidade() {
+		return jogabilidade;
 	}
 
-	public void setTipoJogo(String tipoJogo) {
-		this.tipoJogo = tipoJogo;
+
+	public void setJogabilidade(HashSet<Jogabilidade> jogabilidade) {
+		this.jogabilidade = jogabilidade;
 	}
+
+	
 	
 
 }

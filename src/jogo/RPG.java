@@ -7,6 +7,8 @@ package jogo;
  *
  */
 
+import java.util.HashSet;
+
 import exception.EntradaException;
 import exception.NumeroInvalidoException;
 
@@ -25,8 +27,8 @@ public class RPG extends Jogo{
 	 * @throws EntradaException
 	 */
 	public RPG(String nome, double preco, int maiorScore, int numeroAcessos,
-			int zerouJogo, String tipoJogo) throws EntradaException {
-		super(nome, preco, maiorScore, numeroAcessos, zerouJogo, tipoJogo);
+			int zerouJogo, String tipoJogo, HashSet<Jogabilidade> jogabilidade) throws EntradaException {
+		super(nome, preco, maiorScore, numeroAcessos, zerouJogo, tipoJogo, jogabilidade);
 		
 		this.x2p = 0;
 	}

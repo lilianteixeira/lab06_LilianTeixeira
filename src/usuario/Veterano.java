@@ -8,6 +8,7 @@ package usuario;
  */
 
 import exception.NumeroInvalidoException;
+import exception.SaldoInsuficienteException;
 import jogo.Jogo;
 
 public class Veterano extends Usuario{
@@ -92,4 +93,27 @@ public class Veterano extends Usuario{
 		}
 		return false;
 	}
+
+	@Override
+	public void compraJogo(Jogo jogo)throws SaldoInsuficienteException{
+			
+			double desconto = calculaDesconto(jogo.getPreco());
+			double precoFinal = jogo.getPreco() - desconto;
+			
+			if (this.getDinheiro() >= precoFinal){
+				
+				
+				double novoSaldo = getDinheiro() - precoFinal;
+				setDinheiro(novoSaldo);
+				
+				adicionaJogo(jogo);
+				
+				x2p(jogo);
+			} else{
+				throw new SaldoInsuficienteException();
+			}
+	}
+		
+		
+	
 }

@@ -9,14 +9,11 @@ package loja;
  */
 
 import java.util.HashMap;
-
 import exception.EntradaException;
 import exception.UpgradeInvalidoException;
 import exception.UsuarioInexistenteException;
 import jogo.Jogo;
-import usuario.Noob;
-import usuario.Usuario;
-import usuario.Veterano;
+import usuario.*;
 
 public class Loja {
 
@@ -111,6 +108,7 @@ public class Loja {
 		return null;
 	}
 	
+	//cria jogo nao serve pra nada porque loja nao cria o jogo
 	/**
 	 * 
 	 * @param tipoJogo
@@ -121,12 +119,12 @@ public class Loja {
 	 * @param zerouJogo
 	 * @return o objeto jogo
 	 * @throws EntradaException
-	 */
-	public String criaJogo(String tipoJogo, String nome, double preco, int maiorScore, int numeroAcessos, int zerouJogo) throws EntradaException{
+	 *
+	public String criaJogo(String tipoJogo, String nome, double preco, int maiorScore, int numeroAcessos, int zerouJogo, HashSet<Jogabilidade>  jogabilidade) throws EntradaException{
 		
-		Jogo jogo = new Jogo(nome, preco, maiorScore, numeroAcessos, zerouJogo, tipoJogo);
+		Jogo jogo = new Jogo(nome, preco, maiorScore, numeroAcessos, zerouJogo, tipoJogo, jogabilidade);
 		 return jogo.getTipoJogo();
-	}
+	}*/
 	
 	/**
 	 * 
