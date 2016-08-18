@@ -1,7 +1,14 @@
 package jogo;
 
+/**
+ * 
+ * @author Lílian Honorio Teixeira
+ *  O metodo usa o enum que é a melhor maneira de manusear constantes
+ *
+ */
+
 public enum Jogabilidade {
 	
-	Online, Offline, Multiplayer, Cooperativo, Competitivo;	
+	ONLINE, OFFLINE, MULTIPLAYER, COOPERATIVO, COMPETITIVO;
 
 }

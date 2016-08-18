@@ -1,30 +1,135 @@
 package jogo;
 
+import exception.EntradaException;
+import exception.NumeroInvalidoException;
+import exception.StringInvalidaException;
+
+/**
+ * 
+ * @author Lílian Honorio Teixeira
+ * A classe Jogo e mae das classes RPG, Plataforma e Luta
+ *
+ */
+
 public class Jogo {
 	
 	private String nome;
 	private double preco;
-	private int maiorScore; //começa igual a zero , só atualiza se a nova for maior que a atual
-	private int quantidadeVezesJogado; //começa igual a zero
-	private int quantidadeVezesZerou;
+	private int maiorScore ;
+	private int numeroAcessos ;
+	private int zerouJogo ;
+	private String tipoJogo;
 	
-	//construtor
-	public Jogo(String nome, double preco, int maiorScore, int quantidadeVezesJogado, int quantidadeVezesZerou) {
-
+	/**
+	 * Abaixo os atributos do metodo jogo
+	 * @param nome
+	 * @param preco
+	 * @param maiorScore
+	 * @param numeroAcessos
+	 * @param zerouJogo
+	 * @param tipoJogo
+	 * @throws EntradaException
+	 * Esse método lanca uma excecao caso o nome ou preco seja invalido 
+	 */
+	public Jogo(String nome, double preco, int maiorScore, int numeroAcessos, int zerouJogo, String tipoJogo) throws EntradaException {
+		
+		if (nome == null || nome == ""){
+			throw new StringInvalidaException("Nome do jogo não pode ser nulo ou vazio");
+		} 
+		
+		if (preco <= 0){
+			throw new NumeroInvalidoException(" Preco nao pode ser igual ou menor que zero");
+		} 
+		
 		this.nome = nome;
 		this.preco = preco;
 		this.maiorScore = 0;
-		this.quantidadeVezesJogado = 0;
-		this.quantidadeVezesZerou = quantidadeVezesZerou;
+		this.numeroAcessos = 0;
+		this.zerouJogo = 0;
+		this.tipoJogo = tipoJogo;
+		
+	}
+	
+	/**
+	 * 
+	 * @param score
+	 * @param zerou
+	 * @return um int que sera o x2p nas classes filhas
+	 * @throws NumeroInvalidoException
+	 * Lanca uma excecao se o score for menor que zero
+	 * 
+	 */
+	public int registraJogada(int score, boolean zerou) throws NumeroInvalidoException{
+				
+		if(score < 0){
+			throw new NumeroInvalidoException("Score");
+		} else {
+			
+			if (score > this.maiorScore){
+				this.maiorScore = score;
+				
+			}
+			
+			if (zerou){
+				this.zerouJogo = zerouJogo +1;
+				
+			}
+		
+			this.numeroAcessos = numeroAcessos +1;
+		}
+		return 0;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer string = new StringBuffer();
+		
+		string.append(" " + this.nome + " :");
+		System.out.println("");
+		string.append("==> Jogou " + numeroAcessos + " vez(es)");
+		System.out.println("");
+		string.append("==> Zerou " + zerouJogo + " vez(es)");
+		System.out.println("");
+		string.append("==> Maior score: " + maiorScore);
+		System.out.println("");
+		
+		return string.toString();
 		
 	}
 
-	//acessadores e modificadores
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(preco);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
 	
+		if (obj instanceof Jogo){
+			Jogo outroJogo = (Jogo) obj;
+			if (this.nome.equals(outroJogo.nome) && this.preco == outroJogo.preco){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * Metodos acessadores e modificadores
+	 * 
+	 */
+
 	public String getNome() {
 		return nome;
 	}
-
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -45,29 +150,29 @@ public class Jogo {
 		this.maiorScore = maiorScore;
 	}
 
-	public int getQuantidadeVezesJogado() {
-		return quantidadeVezesJogado;
+	public int getNumeroAcessos() {
+		return numeroAcessos;
 	}
 
-	public void setQuantidadeVezesJogado(int quantidadeVezesJogado) {
-		this.quantidadeVezesJogado = quantidadeVezesJogado;
+	public void setNumeroAcessos(int numeroAcessos) {
+		this.numeroAcessos = numeroAcessos;
 	}
 
-	public int getQuantidadeVezesZerou() {
-		return quantidadeVezesZerou;
-	}
-
-	public void setQuantidadeVezesZerou(int quantidadeVezesZerou) {
-		this.quantidadeVezesZerou = quantidadeVezesZerou;
-	}
-
-	//rever
-	public void registraJogada(int score, boolean zerou ){
-		
-		if (score > maiorScore){
-			maiorScore = score;
-		}
-		
+	public int getZerouJogo() {
+		return zerouJogo;
 	}
 	
+	public void setZerouJogo(int zerouJogo) {
+		this.zerouJogo = zerouJogo;
+	}
+
+	public String getTipoJogo() {
+		return tipoJogo;
+	}
+
+	public void setTipoJogo(String tipoJogo) {
+		this.tipoJogo = tipoJogo;
+	}
+	
+
 }

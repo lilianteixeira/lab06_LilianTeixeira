@@ -1,84 +1,187 @@
 package loja;
 
-import java.util.ArrayList;
-import jogo.Jogo;
-import Usuario.Usuario;
 /**
  * 
- * @author lilianht
- *
- *a loja é responsavel por imprimir os dados no console e capturas de Exceptions
+ * @author Lílian Honorio Teixeira
+ *  A classe Loja é responsável por cadastrar e modificar coisas em usuario, 
+ *  e por vender jogo. 
  *
  */
 
+import java.util.HashMap;
+
+import exception.EntradaException;
+import exception.UpgradeInvalidoException;
+import exception.UsuarioInexistenteException;
+import jogo.Jogo;
+import usuario.Noob;
+import usuario.Usuario;
+import usuario.Veterano;
+
 public class Loja {
 
-	private ArrayList<Usuario> listaDeUsuarios;
-	private Usuario usuario;
-	private Jogo jogo;
-	
-	public Loja() {
+	private HashMap<String, Usuario> usuarioEspecifico;
 
-		listaDeUsuarios = new ArrayList<Usuario>();
-		
+	public Loja(){
+		usuarioEspecifico = new HashMap<String, Usuario>();
 	}
 	
-	private Usuario pesquisaUsuario(String login){
+	public Noob criaUsuarioNoob(String nome, String login, double dinheiro, int x2p) throws Exception{
 		
-		if (listaDeUsuarios.contains(usuario.getNomeLogin().equalsIgnoreCase(login))){
-			return usuario;
+		Noob usuarioNoob = new Noob(nome, login, dinheiro, x2p);
+		return usuarioNoob;
+	}
+	
+	public Veterano criaUsuarioVeterano(String nome, String login, double dinheiro, int x2p) throws Exception {
+		
+		Veterano usuarioVeterano = new Veterano(nome, login, dinheiro, x2p);
+		return usuarioVeterano;
+	}
+	
+	/**
+	 * O metodo adiciona um  novo usuario, sempre comecando por Noob
+	 * @param usuario
+	 * @param nome
+	 * @param usuarioNoob
+	 * @throws EntradaException
+	 */
+	public void adicionaUsuario(Usuario usuario, String nome, Noob usuarioNoob) throws EntradaException{
+		
+		try {
+			
+			if (usuarioEspecifico.containsValue(usuario.getNome().equals(nome)) ==  false){
+				usuarioEspecifico.put(nome ,usuarioNoob);
+				
+		}} catch (Exception e) {
+			String mensagem = "Nome não pode ser nulo ou vazio";
+					System.out.println(mensagem);
+			
+			}
+		}
+
+	/**
+	 * 
+	 * @param login
+	 * @param usuario
+	 * @param dinheiroExtra
+	 * @return a quantidade de dinheiro do usuario
+	 */
+	public double adicionaDinheiro(String login, Usuario usuario, double dinheiroExtra){
+		
+		if (usuarioEspecifico.containsValue(usuario.getLogin().equals(login))){
+			
+			usuario.setDinheiro(usuario.getDinheiro() + dinheiroExtra);
+			
+		}
+		
+		return usuario.getDinheiro();
+	}
+	
+	/**
+	 * O metodo vende jogos aos usuarios
+	 * @param jogo
+	 * @param login
+	 * @param nomeJogo
+	 * @param preco
+	 * @param jogosComprados
+	 */
+	public void vendeJogos(Jogo jogo, String login, String nomeJogo, double preco, Usuario jogosComprados){
+		
+		if(usuarioEspecifico.containsValue(login)){
+			Usuario usuario = usuarioEspecifico.get(login);
+			if (usuario.getDinheiro() > jogo.getPreco()){
+				double retiraDinheiro = usuario.getDinheiro() - jogo.getPreco(); 
+				usuario.setDinheiro(retiraDinheiro);
+				
+			}
+		}
+	}
+		
+	/**
+	 * 
+	 * @param login
+	 * @return um objeto usuario
+	 */
+	public Usuario buscaLogin(String login){
+		
+		if (usuarioEspecifico.containsKey(login)){
+			return usuarioEspecifico.get(login);
 		}
 		
 		return null;
 	}
 	
-	public void adicionaUsuario(String nome, String nomeLogin, double dinheiro){
+	/**
+	 * 
+	 * @param tipoJogo
+	 * @param nome
+	 * @param preco
+	 * @param maiorScore
+	 * @param numeroAcessos
+	 * @param zerouJogo
+	 * @return o objeto jogo
+	 * @throws EntradaException
+	 */
+	public String criaJogo(String tipoJogo, String nome, double preco, int maiorScore, int numeroAcessos, int zerouJogo) throws EntradaException{
 		
-		usuario = new Usuario(nome, nomeLogin, dinheiro);
-		listaDeUsuarios.add(usuario);
-		
+		Jogo jogo = new Jogo(nome, preco, maiorScore, numeroAcessos, zerouJogo, tipoJogo);
+		 return jogo.getTipoJogo();
 	}
 	
-	public void adicionaDinheiro(double dinheiro, String login){
+	/**
+	 * 
+	 * @param login
+	 * @throws Exception
+	 */
+	public void upgrade(String login) throws Exception{
 		
-		if(pesquisaUsuario(login) != null){
-			
-			double dinheiroAntigo = usuario.getDinheiro();
-			
-			double dinheiroNovo = dinheiroAntigo += dinheiro;
-			
-			usuario.setDinheiro(dinheiroNovo);
-			
-		}
+		Usuario usuario = buscaLogin(login);
+		String nome = usuario.getNome();
+		login = usuario.getLogin();
+		double dinheiro = usuario.getDinheiro();
+		int x2p = usuario.getX2p();
 		
-	}
+		usuarioEspecifico.remove(usuario);
+		
+		usuario = new Veterano(nome, login, dinheiro, x2p);
+		
+		usuarioEspecifico.put(login, usuario);
 	
-	public boolean vendeJogos(String login){
-		
-		if(pesquisaUsuario(login) != null && usuario.getDinheiro() < jogo.getPreco()) {
 			
-			return true;
-			
+		if (usuario instanceof Veterano) {
+						
+			throw new UpgradeInvalidoException(usuario.getNome());
+						
 		}
 		
-		return false;
+		if (usuario.getX2p() < 1000) {
+			
+			throw new UpgradeInvalidoException();
+						
+		} 
+			
+		if (usuarioEspecifico.containsKey(usuario) == false){
+			
+			throw new UsuarioInexistenteException();
+		}
+				
+				
+} 	
+	
+	@Override
+	public String toString( ) {
+		
+		StringBuffer string = new StringBuffer();
+		
+		string.append("=== Central P2-CG ===");
+		System.out.println("");
+		
+		System.out.println("");
+		string.append("--------------------------------");
+		
+		return string.toString();
 	}
 
 	
-	@Override
-	public String toString() {
-		
-		String imprimir ;
-		imprimir  = "=== Central P2-CG ==  /n" + usuario.getNomeLogin() + "/n " 
-		+ usuario.getNome() + "- Jogador "  ;
-		
-		//rever toString
-		
-		return "Loja [usuario=" + usuario + ", jogo=" + jogo + "]";
-		
-		
-	}
-	
-	
-	
+
 }
