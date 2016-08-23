@@ -9,6 +9,7 @@ package loja;
  */
 
 import java.util.HashMap;
+
 import exception.EntradaException;
 import exception.UpgradeInvalidoException;
 import exception.UsuarioInexistenteException;
@@ -139,11 +140,6 @@ public class Loja {
 		double dinheiro = usuario.getDinheiro();
 		int x2p = usuario.getX2p();
 		
-		usuarioEspecifico.remove(usuario);
-		
-		usuario = new Veterano(nome, login, dinheiro, x2p);
-		
-		usuarioEspecifico.put(login, usuario);
 	
 			
 		if (usuario instanceof Veterano) {
@@ -163,9 +159,42 @@ public class Loja {
 			throw new UsuarioInexistenteException();
 		}
 				
+		usuarioEspecifico.remove(usuario);
+		
+		usuario = new Veterano(nome, login, dinheiro, x2p);
+		
+		usuarioEspecifico.put(login, usuario);
 				
 } 	
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((usuarioEspecifico == null) ? 0 : usuarioEspecifico
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (obj instanceof Loja){
+			
+			Loja other = (Loja) obj;
+			
+			if(usuarioEspecifico.equals(other.usuarioEspecifico)){
+				return true;
+			}
+		}
+		
+		return false;
+		
+		
+	}
+
 	@Override
 	public String toString( ) {
 		
